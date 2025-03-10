@@ -106,6 +106,7 @@ export async function handleAnthropicStream({
       content: msg.content,
     })
   );
+
   let responseBuffer: string = "";
   console.log("Streaming Anthropic response...", {
     temperature,
@@ -113,6 +114,11 @@ export async function handleAnthropicStream({
     systemPrompt,
     messages,
   });
+
+  // Regex for phone number and email detection
+  const phoneNumberRegex = /\b\d{10}\b/g;
+  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
+
   await anthropicClient.messages
     .stream({
       messages: anthropicMessages,
@@ -123,6 +129,17 @@ export async function handleAnthropicStream({
     })
     .on("text", (textDelta) => {
       responseBuffer += textDelta;
+
+      // Replace phone numbers with a <a> tag
+      responseBuffer = responseBuffer.replace(phoneNumberRegex, (match) => {
+        return `<a href="tel:${match}">${match}</a>`;
+      });
+
+      // Replace emails with a <a> tag
+      responseBuffer = responseBuffer.replace(emailRegex, (match) => {
+        return `<a href="mailto:${match}">${match}</a>`;
+      });
+
       const streamedMessage: StreamedMessage = {
         type: "message",
         message: {
