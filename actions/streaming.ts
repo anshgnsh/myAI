@@ -51,7 +51,6 @@ export async function handleOpenAIStream({
       messages,
     });
   }
-
   const startTime = Date.now();
   const streamedResponse = await client.chat.completions.create({
     model: model_name,
@@ -59,30 +58,13 @@ export async function handleOpenAIStream({
     stream: true,
     temperature,
   });
-
   if (!streamedResponse) {
     throw new Error("No stream response");
   }
-
   let responseBuffer: string = "";
-
-  // Regex for phone number and email detection
-  const phoneNumberRegex = /\b\d{10}\b/g;
-  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
 
   for await (const chunk of streamedResponse) {
     responseBuffer += chunk.choices[0]?.delta.content ?? "";
-
-    // Replace phone numbers with a <a> tag
-    responseBuffer = responseBuffer.replace(phoneNumberRegex, (match) => {
-      return `<a href="tel:${match}">${match}</a>`;
-    });
-
-    // Replace emails with a <a> tag
-    responseBuffer = responseBuffer.replace(emailRegex, (match) => {
-      return `<a href="mailto:${match}">${match}</a>`;
-    });
-
     const streamedMessage: StreamedMessage = {
       type: "message",
       message: {
@@ -95,11 +77,9 @@ export async function handleOpenAIStream({
       new TextEncoder().encode(JSON.stringify(streamedMessage) + "\n")
     );
   }
-
   const endTime = Date.now();
   const streamDuration = endTime - startTime;
   console.log(`Done streaming OpenAI response in ${streamDuration / 1000}s`);
-
   const donePayload: StreamedDone = {
     type: "done",
     final_message: responseBuffer,
