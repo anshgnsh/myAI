@@ -1,4 +1,4 @@
-export const OWNER_NAME: string = `Purple Bowl's AI assistant`;
+export const OWNER_NAME: string = `The Purple Bowl`;
 export const OWNER_DESCRIPTION: string = `[OWNER DESCRIPTION]`;
 
 export const AI_NAME: string = `BERRY BOT`;
