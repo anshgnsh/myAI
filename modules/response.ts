@@ -179,8 +179,17 @@ export class ResponseModule {
           });
           const citations: Citation[] = await getCitationsFromChunks(chunks);
           const contextFromSources = await getContextFromSources(sources);
+          
           const systemPrompt =
             RESPOND_TO_QUESTION_SYSTEM_PROMPT(contextFromSources);
+
+          // Code added by me to display link to full menu when "menu" keyword is found
+          if (contextFromSources.toLowerCase().includes("menu")) {
+          // Assuming a static menu URL; replace it with the actual menu link you want
+          const menuLink = "https://www.yourrestaurant.com/menu"; 
+          systemPrompt += `\nFor more details on menu options, check out the menu here: ${menuLink}`;
+        }
+          
           queueIndicator({
             controller,
             status: "Coming up with an answer",
