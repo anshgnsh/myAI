@@ -26,18 +26,27 @@ export class IntentionModule {
         content: msg.content,
       }));
 
-    const response = await openai.beta.chat.completions.parse({
-      model: INTENTION_MODEL,
-      messages: [
-        { role: "system", content: INTENTION_PROMPT() },
-        ...mostRecentMessages,
-      ],
-      response_format: zodResponseFormat(intentionSchema, "intention"),
-    });
+    // Adjust the response format if necessary
+    try {
+      const response = await openai.chat.completions.create({
+        model: INTENTION_MODEL,
+        messages: [
+          { role: "system", content: INTENTION_PROMPT() },
+          ...mostRecentMessages,
+        ],
+      });
 
-    if (!response.choices[0].message.parsed) {
-      return { type: "random" as IntentionType };
+      const parsedResponse = zodResponseFormat(response, intentionSchema);
+
+      // Check if parsedResponse is valid
+      if (!parsedResponse || !parsedResponse.choices || !parsedResponse.choices[0].message.parsed) {
+        return { type: "random" as IntentionType };
+      }
+      return parsedResponse.choices[0].message.parsed;
+    } catch (error) {
+      console.error("Error detecting intention:", error);
+      return { type: "random" as IntentionType }; // Default in case of error
     }
-    return response.choices[0].message.parsed;
   }
 }
+
