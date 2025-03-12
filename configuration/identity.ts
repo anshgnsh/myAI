@@ -3,6 +3,6 @@ export const OWNER_DESCRIPTION: string = `[OWNER DESCRIPTION]`;
 
 export const AI_NAME: string = `BERRY BOT`;
 export const AI_TONE: string = `Friendly, helpful, and upbeat`;  
-export const AI_ROLE: string = `Helps customers browse the menu, customize orders, and get seasonal recommendations.`;  
+export const AI_ROLE: string = `As part of our team, I help customers browse the menu, customize orders, and get seasonal recommendations.`;  
  
 
