@@ -93,6 +93,12 @@ function createClickableLinks(content: string): string {
          const mostRecentMessages: CoreMessage[] = await convertToCoreMessages(
            stripMessagesOfCitations(chat.messages.slice(-HISTORY_CONTEXT_LENGTH))
          );
+
+          const formattedMessages = mostRecentMessages.map((message) => {
+          message.content = createClickableLinks(message.content); // Apply the clickable link function
+          console.log("Formatted Message Content:", message.content); // Log the transformed content for debugging
+          return message;
+        });
  
          const citations: Citation[] = [];
          queueAssistantResponse({
