@@ -185,8 +185,7 @@ export class ResponseModule {
 
           // Code added by me to display link to full menu when "menu" keyword is found
           if (contextFromSources.toLowerCase().includes("menu")) {
-          // Assuming a static menu URL; replace it with the actual menu link you want
-          const menuLink = "https://www.yourrestaurant.com/menu"; 
+          const menuLink = "https://static1.squarespace.com/static/6320e1d70a19b9439fa2f7e1/t/671b0bd27a62233787d5b394/1729825748682/PBMenu_Print.pdf"; 
           systemPrompt += `\nFor more details on menu options, check out the menu here: ${menuLink}`;
         }
           
