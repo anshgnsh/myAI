@@ -45,98 +45,7 @@ import {
   RANDOM_RESPONSE_TEMPERATURE,
 } from "@/configuration/models";
 
-/**
- * ResponseModule is responsible for collecting data and building a response
- */
 export class ResponseModule {
-  static async respondToRandomMessage(
-    chat: Chat,
-    providers: AIProviders
-  ): Promise<Response> {
-    /**
-     * Respond to the user when they send a RANDOM message
-     */
-    const PROVIDER_NAME: ProviderName = RANDOM_RESPONSE_PROVIDER;
-    const MODEL_NAME: string = RANDOM_RESPONSE_MODEL;
-
-    const stream = new ReadableStream({
-      async start(controller) {
-        queueIndicator({
-          controller,
-          status: "Coming up with an answer",
-          icon: "thinking",
-        });
-        const systemPrompt = RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT();
-        const mostRecentMessages: CoreMessage[] = await convertToCoreMessages(
-          stripMessagesOfCitations(chat.messages.slice(-HISTORY_CONTEXT_LENGTH))
-        );
-
-        const citations: Citation[] = [];
-        queueAssistantResponse({
-          controller,
-          providers,
-          providerName: PROVIDER_NAME,
-          messages: mostRecentMessages,
-          model_name: MODEL_NAME,
-          systemPrompt,
-          citations,
-          error_message: DEFAULT_RESPONSE_MESSAGE,
-          temperature: RANDOM_RESPONSE_TEMPERATURE,
-        });
-      },
-    });
-
-    return new Response(stream, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
-  }
-
-  static async respondToHostileMessage(
-    chat: Chat,
-    providers: AIProviders
-  ): Promise<Response> {
-    /**
-     * Respond to the user when they send a HOSTILE message
-     */
-    const PROVIDER_NAME: ProviderName = HOSTILE_RESPONSE_PROVIDER;
-    const MODEL_NAME: string = HOSTILE_RESPONSE_MODEL;
-
-    const stream = new ReadableStream({
-      async start(controller) {
-        queueIndicator({
-          controller,
-          status: "Coming up with an answer",
-          icon: "thinking",
-        });
-        const systemPrompt = RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT();
-        const citations: Citation[] = [];
-        queueAssistantResponse({
-          controller,
-          providers,
-          providerName: PROVIDER_NAME,
-          messages: [],
-          model_name: MODEL_NAME,
-          systemPrompt,
-          citations,
-          error_message: DEFAULT_RESPONSE_MESSAGE,
-          temperature: HOSTILE_RESPONSE_TEMPERATURE,
-        });
-      },
-    });
-
-    return new Response(stream, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-    });
-  }
-
   static async respondToQuestion(
     chat: Chat,
     providers: AIProviders,
@@ -155,45 +64,57 @@ export class ResponseModule {
           status: "Figuring out what your answer looks like",
           icon: "thinking",
         });
+
         try {
           const hypotheticalData: string = await generateHypotheticalData(
             chat,
             providers.openai
           );
+
           const { embedding }: { embedding: number[] } =
             await embedHypotheticalData(hypotheticalData, providers.openai);
+
           queueIndicator({
             controller,
             status: "Reading through documents",
             icon: "searching",
           });
+
           const chunks: Chunk[] = await searchForChunksUsingEmbedding(
             embedding,
             index
           );
+
           const sources: Source[] = await getSourcesFromChunks(chunks);
+
           queueIndicator({
             controller,
             status: `Read over ${sources.length} documents`,
             icon: "documents",
           });
+
           const citations: Citation[] = await getCitationsFromChunks(chunks);
-          const contextFromSources = await getContextFromSources(sources);
-          
-          const systemPrompt =
+          const contextFromSources: string = await getContextFromSources(
+            sources
+          );
+
+          // Ensure systemPrompt is mutable
+          let systemPrompt: string =
             RESPOND_TO_QUESTION_SYSTEM_PROMPT(contextFromSources);
 
-          // Code added by me to display link to full menu when "menu" keyword is found
+          // Add menu link if "menu" is found in the context
           if (contextFromSources.toLowerCase().includes("menu")) {
-          const menuLink = "https://static1.squarespace.com/static/6320e1d70a19b9439fa2f7e1/t/671b0bd27a62233787d5b394/1729825748682/PBMenu_Print.pdf"; 
-          systemPrompt += `\nFor more details on menu options, check out the menu here: ${menuLink}`;
-        }
-          
+            const menuLink =
+              "https://static1.squarespace.com/static/6320e1d70a19b9439fa2f7e1/t/671b0bd27a62233787d5b394/1729825748682/PBMenu_Print.pdf";
+            systemPrompt += `\nFor more details on menu options, check out the menu here: ${menuLink}`;
+          }
+
           queueIndicator({
             controller,
             status: "Coming up with an answer",
             icon: "thinking",
           });
+
           queueAssistantResponse({
             controller,
             providers,
@@ -209,10 +130,12 @@ export class ResponseModule {
           });
         } catch (error: any) {
           console.error("Error in respondToQuestion:", error);
+
           queueError({
             controller,
             error_message: error.message ?? DEFAULT_RESPONSE_MESSAGE,
           });
+
           queueAssistantResponse({
             controller,
             providers,
@@ -237,3 +160,4 @@ export class ResponseModule {
     });
   }
 }
+
