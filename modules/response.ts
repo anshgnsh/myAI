@@ -44,7 +44,30 @@ import {
    QUESTION_RESPONSE_TEMPERATURE,
    RANDOM_RESPONSE_TEMPERATURE,
  } from "@/configuration/models";
- 
+
+// Helper function to create clickable links
+function createClickableLinks(content: string): string {
+  // Regex patterns for phone number, email, and address
+  const phonePattern = /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/g;
+  const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+  const addressPattern = /\d{1,5}\s\w+\s\w+/g; // Simple address pattern (this could be more complex)
+
+  // Replace phone numbers, emails, and addresses with clickable links
+  content = content.replace(phonePattern, (match) => {
+    return `<a href="tel:${match}">${match}</a>`;
+  });
+
+  content = content.replace(emailPattern, (match) => {
+    return `<a href="mailto:${match}">${match}</a>`;
+  });
+
+  content = content.replace(addressPattern, (match) => {
+    return `<a href="https://www.google.com/maps/search/?q=${encodeURIComponent(match)}" target="_blank">${match}</a>`;
+  });
+
+  return content;
+}
+
  /**
   * ResponseModule is responsible for collecting data and building a response
   */
