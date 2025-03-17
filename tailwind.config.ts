@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-             mbackground: '#eeece7', // Main background color
+             background: '#eeece7', // Main background color
             // foreground: 'hsl(var(--foreground))',
             foreground: '#eeece7'
   			card: {
