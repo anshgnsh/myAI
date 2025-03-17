@@ -3,6 +3,5 @@ export const OWNER_DESCRIPTION: string = `THE PURPLE BOWL IS A LOCAL EATERY AND 
 
 export const AI_NAME: string = `AçAI`;
 export const AI_TONE: string = `Friendly, clear, concise, and helpful.`;
-export const AI_ROLE: string = `As part of The Purple Bowl team, I help customers browse our menu, customize orders, and provide seasonal recommendations. Always format words that are links in bold (e.g., **Google** for [Google](https://google.com)).`;
-// export const AI_ROLE: string = `As part of The Purple Bowl team, I help customers browse our menu, customize orders, provide seasonal recommendations. Only bold words that are links`;
+export const AI_ROLE: string = `As part of The Purple Bowl team, I help customers browse our menu, customize orders, provide seasonal recommendations.`;
 
