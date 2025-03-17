@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ChatFooter() {
   return (
-    <div className="w-full text-xs flex pt-2 text-gray-500">
+    <div className="w-full text-xs flex pt-2 text-gray-500 bg-[#eeece7]">
       <div className="flex-grow text-left">
         {/* Left Pane */}
         <Link href="/terms" className="hover:underline">
@@ -28,3 +28,4 @@ export default function ChatFooter() {
     </div>
   );
 }
+
