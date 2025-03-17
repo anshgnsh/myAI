@@ -36,6 +36,8 @@ export default function ChatHeader({
           </Button>
         </div>
       </div>
+      {/* Black Line Separator */}
+      <div className="w-full h-[2px] bg-black mt-2"></div>
     </div>
   );
 }
