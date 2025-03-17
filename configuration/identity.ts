@@ -5,4 +5,6 @@ export const AI_NAME: string = `AçAI`;
 export const AI_TONE: string = `Friendly, clear, concise, and helpful.`;
 export const AI_ROLE: string = `As part of The Purple Bowl team, I help customers browse our menu, customize orders, provide seasonal recommendations.`;
 
+// testing
+export const formattedResponse = formatLinksWithUnderline(chatbotResponse);
 
