@@ -39,6 +39,8 @@ export default function ChatHeader({
           </div>
         </div>
       </div>
+      {/* Black line separating header and body */}
+      <hr className="border-t-2 border-black" />
     </div>
   );
 }
