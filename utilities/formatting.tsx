@@ -6,10 +6,6 @@ import React from "react";
 const containsLatexRegex =
   /\\\(.*?\\\)|\\\[.*?\\\]|\$.*?\$|\\begin\{equation\}.*?\\end\{equation\}/;
 
-export function formatLinksWithUnderline(text: string): string {
-  return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<u><a href="$2" target="_blank">$1</a></u>');
-} // testing
-
 // Regex for inline and block LaTeX expressions
 const inlineLatex = new RegExp(/\\\((.+?)\\\)/, "g");
 const blockLatex = new RegExp(/\\\[(.*?[^\\])\\\]/, "gs");
