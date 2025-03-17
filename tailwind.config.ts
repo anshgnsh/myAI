@@ -10,8 +10,9 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-  			background: '#eeece7', // Updated background color
-  			foreground: 'hsl(var(--foreground))',
+  			 background: '#eeece7',  // Lighter chat background
+            messageBubble: '#ffffff', // White bubbles
+            text: '#333', // Darker text
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
