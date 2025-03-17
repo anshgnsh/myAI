@@ -19,10 +19,9 @@ export function Formatting({ message }: { message: DisplayMessage }) {
           className="rounded-xl"
           children={String(children).replace(/\n$/, "")}
           language={match[1]}
-          style={{ backgroundColor: "#eeece7" }} // Change background color here
         />
       ) : (
-        <code {...rest} className={className} style={{ backgroundColor: "#eeece7" }}>
+        <code {...rest} className={className}>
           {children}
         </code>
       );
