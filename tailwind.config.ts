@@ -10,46 +10,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#F5F5F5', // Light gray background
-        foreground: '#333333', // Dark gray text
+        background: "rgba(238,236,231,255)", // Off-white background
+        foreground: "#333333", // Dark gray text for contrast
         primary: {
-          DEFAULT: '#6A1B9A', // Deep purple
-          foreground: '#FFFFFF', // White text on primary
+          DEFAULT: "#6A1B9A", // Deep purple
+          foreground: "#FFFFFF", // White text on primary
         },
         secondary: {
-          DEFAULT: '#AB47BC', // Lighter purple
-          foreground: '#FFFFFF', // White text on secondary
+          DEFAULT: "#AB47BC", // Lighter purple
+          foreground: "#FFFFFF", // White text on secondary
         },
         accent: {
-          DEFAULT: '#FF4081', // Pink accent
-          foreground: '#FFFFFF', // White text on accent
+          DEFAULT: "#FF4081", // Pink accent
+          foreground: "#FFFFFF", // White text on accent
         },
         muted: {
-          DEFAULT: '#E0E0E0', // Muted gray for borders or backgrounds
-          foreground: '#757575', // Muted text
+          DEFAULT: "rgba(238,236,231,255)", // Using the same off-white for muted sections
+          foreground: "#6A1B9A", // Deep purple text for muted sections
         },
-        border: '#E0E0E0', // Border color
-        input: '#FFFFFF', // Input background color
-        ring: '#6A1B9A', // Focus ring color
+        border: "#AB47BC", // Using the lighter purple for borders
+        input: "#FFFFFF", // White input background
+        ring: "#6A1B9A", // Focus ring color
       },
       borderRadius: {
-        lg: '12px',
-        md: '8px',
-        sm: '4px',
+        lg: "12px",
+        md: "8px",
+        sm: "4px",
       },
       keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
@@ -57,4 +57,5 @@ const config: Config = {
 };
 
 export default config;
+
 
