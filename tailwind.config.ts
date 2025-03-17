@@ -11,8 +11,7 @@ const config: Config = {
   	extend: {
   		colors: {
              background: '#eeece7', // Main background color
-            // foreground: 'hsl(var(--foreground))',
-            foreground: '#eeece7'
+             foreground: 'hsl(var(--foreground))',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
